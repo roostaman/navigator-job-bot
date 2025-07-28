@@ -1,5 +1,7 @@
-package kz.onlinebank;
+package kz.onlinebank.bot;
 
+import kz.onlinebank.helper.BaseHelper;
+import kz.onlinebank.helper.GetConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,10 +17,7 @@ import java.util.List;
 public class EndpointsParserBot {
 
     private static WebDriver driver;
-    private static final String BASE_URL = "https://halyk.test.onlinebank.kz/navigator/";
-    private static final String ENDPOINTS_URL = "https://halyk.test.onlinebank.kz/navigator/onlinebank/security/OnlinebankUserRestrictionsPage";
-    private static final String login = System.getenv("NAV_LOGIN");
-    private static final String pass = System.getenv("NAV_PASS");
+    private static final String ENDPOINTS_URL = GetConfig.get("ENDPOINTS_URL");
 
     public static void main(String[] args) {
         BaseHelper.setUpDriver();
@@ -26,21 +25,10 @@ public class EndpointsParserBot {
         driver = BaseHelper.getDriver();
 
         try {
-            driver.get(BASE_URL);
-
-            driver.findElement(By.xpath("(//input[@class='loginTextFiled'])[1]"))
-                    .sendKeys(login);
-
-            driver.findElement(By.xpath("(//input[@class='loginTextFiled'])[2]"))
-                    .sendKeys(pass);
-
-            driver.findElement(By.xpath("//input[@type=\"submit\"]"))
-                    .click();
-
+            BaseHelper.logIn();
             Thread.sleep(15000);
 
             driver.get(ENDPOINTS_URL);
-
             Thread.sleep(10000);
 
             List<WebElement> endpoints = driver.findElements(By.xpath("(//*[@id=\"ext-gen1009\"]/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td[5])[position() > 1]"));
