@@ -3,39 +3,31 @@ package kz.onlinebank;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class EndpointsParserBot {
 
-    public static WebDriver driver;
-    protected static final String BASE_URL = "https://halyk.test.onlinebank.kz/navigator/";
-    protected static final String ENDPOINTS_URL = "https://halyk.test.onlinebank.kz/navigator/onlinebank/security/OnlinebankUserRestrictionsPage";
+    private static WebDriver driver;
+    private static final String BASE_URL = "https://halyk.test.onlinebank.kz/navigator/";
+    private static final String ENDPOINTS_URL = "https://halyk.test.onlinebank.kz/navigator/onlinebank/security/OnlinebankUserRestrictionsPage";
     private static final String login = System.getenv("NAV_LOGIN");
     private static final String pass = System.getenv("NAV_PASS");
 
-    public static void setUpDriver() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized", "--disable-infobars", "--disable-extensions", "--incognito");
-
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get(BASE_URL);
-    }
-
     public static void main(String[] args) {
-        setUpDriver();
+        BaseHelper.setUpDriver();
+
+        driver = BaseHelper.getDriver();
 
         try {
+            driver.get(BASE_URL);
+
             driver.findElement(By.xpath("(//input[@class='loginTextFiled'])[1]"))
                     .sendKeys(login);
 
@@ -65,7 +57,7 @@ public class EndpointsParserBot {
             System.out.println(e.getMessage());
         }
         finally {
-            tearDownDriver();
+            BaseHelper.tearDownDriver();
         }
     }
 
@@ -75,12 +67,6 @@ public class EndpointsParserBot {
             Files.write(filePath, data);
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public static void tearDownDriver() {
-        if (driver != null) {
-            driver.quit();
         }
     }
 }
