@@ -11,6 +11,8 @@ public class BaseHelper {
 
     private static WebDriver driver;
     private static final String NAV_BASE_URL = GetConfig.get("NAV_BASE_URL");
+    private static final String NAV_LOGIN = GetConfig.get("NAV_LOGIN");
+    private static final String NAV_PASS = GetConfig.get("NAV_PASS");
 
     public static WebDriver getDriver() {
         return driver;
@@ -35,13 +37,9 @@ public class BaseHelper {
         driver.get(NAV_BASE_URL);
 
         driver.findElement(By.xpath("(//input[@class='loginTextFiled'])[1]"))
-                .sendKeys(
-                        System.getenv("NAV_LOGIN")
-                );
+                .sendKeys(NAV_LOGIN);
         driver.findElement(By.xpath("(//input[@class='loginTextFiled'])[2]"))
-                .sendKeys(
-                        System.getenv("NAV_PASS")
-                );
+                .sendKeys(NAV_PASS);
         driver.findElement(By.xpath("//input[@type=\"submit\"]"))
                 .click();
     }

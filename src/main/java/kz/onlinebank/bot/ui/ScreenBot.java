@@ -1,4 +1,4 @@
-package kz.onlinebank.bot;
+package kz.onlinebank.bot.ui;
 
 import kz.onlinebank.helper.BaseHelper;
 import kz.onlinebank.helper.GetConfig;
@@ -31,7 +31,8 @@ public class ScreenBot {
             driver.get(RESTR_URL);
             Thread.sleep(10000);
 
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(), 'Ограничения')])[1]")))
+            scrollToRestBtn(js);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(), 'Ограничения')])[73]")))
                             .click();
 
             for (int i = 0; i < 342; i++) {
@@ -50,22 +51,27 @@ public class ScreenBot {
                 saveScreenshot(driver, String.format("service-%d", i));
 
                 // scroll to btn restrict
+                WebElement restrictBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='SubmitButton' and @value='Запретить']")));
                 scrollToRestBtn(js);
+                scrollToTheUpperElement(js, restrictBtn);
                 // click btn restrict
-                wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='SubmitButton' and @value='Запретить']")))
-                                .click();
+                restrictBtn.click();
+
                 Thread.sleep(200);
             }
 
             System.out.println("Job is done!");
         }
-
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException("Error occurred", e);
         }
         finally {
             BaseHelper.tearDownDriver();
         }
+    }
+
+    public static void scrollToTheUpperElement(JavascriptExecutor theJs, WebElement theElement) {
+        theJs.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'start' });", theElement);
     }
 
     public static void scrollToRestBtn(JavascriptExecutor theJs) {

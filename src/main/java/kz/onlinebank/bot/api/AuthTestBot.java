@@ -1,4 +1,4 @@
-package kz.onlinebank.bot;
+package kz.onlinebank.bot.api;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -19,7 +19,7 @@ public class AuthTestBot {
                 .baseUri(BASE_URL)
                 .header("Authorization", String.format("Bearer %s", ACCESS_TOKEN))
                 .when()
-                .head("api/invoice-service/invoice/count-sent-invoices");
+                .head(GetConfig.get("SAMPLE_API"));
 
         System.out.printf("Response code - %s", response.getStatusCode());
 

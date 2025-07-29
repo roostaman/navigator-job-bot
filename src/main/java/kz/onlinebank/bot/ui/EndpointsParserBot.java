@@ -1,4 +1,4 @@
-package kz.onlinebank.bot;
+package kz.onlinebank.bot.ui;
 
 import kz.onlinebank.helper.BaseHelper;
 import kz.onlinebank.helper.GetConfig;

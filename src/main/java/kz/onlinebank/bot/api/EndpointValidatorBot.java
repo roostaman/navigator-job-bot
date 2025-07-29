@@ -1,4 +1,4 @@
-package kz.onlinebank.bot;
+package kz.onlinebank.bot.api;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -25,15 +25,13 @@ public class EndpointValidatorBot {
                     .baseUri(BASE_URL)
                     .header("Authorization", String.format("Bearer %s", ACCESS_TOKEN))
                     .when()
-                    .get("api/" + endpoint);
-//                    .head("api/document-service/signatures/sign-by-sms-code");
+                    .head("/api/" + endpoint);
 
             System.out.println("Эндпоинт: " + BASE_URL + "/api/" + endpoint);
             System.out.println("Код статуса: " + response.statusCode());
             System.out.println("------");
 //            break;
         }
-
     }
 
     public static List<String> getEndpointsData() {
