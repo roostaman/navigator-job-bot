@@ -12,8 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 
-public class ScreenBot {
+public class EndpointUnlockerBot {
 
+    private static final Integer ENDPOINTS_SIZE = 342;
     private static WebDriver driver;
     private static final String RESTR_URL = GetConfig.get("RESTR_URL");
 
@@ -35,28 +36,25 @@ public class ScreenBot {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(), 'Ограничения')])[73]")))
                             .click();
 
-            for (int i = 0; i < 342; i++) {
-                if (i == 341) {
-                    System.out.println("Reached to last 342nd element...");
+            for (int i = 0; i < ENDPOINTS_SIZE; i++) {
+                if (i == (ENDPOINTS_SIZE - 1)) {
+                    System.out.printf("Reached to last %d-th element...%n", ENDPOINTS_SIZE);
                 }
 
-                // scroll to top if located at the bottom
-                if (i != 0)
-                    scrollToTop(js);
-                // select checkbox
-                wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//input[@name='RestrictionsCheckboxGroup'])[1]")))
-                                .click();
-                Thread.sleep(100);
-                // take screenshot of service
-                saveScreenshot(driver, String.format("service-%d", i));
-
-                // scroll to btn restrict
+                // scroll to last service's checkbox and select
+                WebElement checkbox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//input[@name='RestrictionsCheckboxGroup'])[last()]")));
                 WebElement restrictBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='SubmitButton' and @value='Запретить']")));
+
                 scrollToRestBtn(js);
                 scrollToTheUpperElement(js, restrictBtn);
+                Thread.sleep(100);
+                checkbox.click();
+
+                // take screenshot of service
+//                saveScreenshot(driver, String.format("service-%d", i));
+
                 // click btn restrict
                 restrictBtn.click();
-
                 Thread.sleep(200);
             }
 
