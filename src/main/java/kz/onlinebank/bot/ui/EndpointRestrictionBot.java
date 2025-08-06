@@ -14,7 +14,7 @@ import java.time.Duration;
 
 public class EndpointRestrictionBot {
 
-    private static final Integer ENDPOINTS_SIZE = 342;
+    private static final Integer ENDPOINTS_SIZE = 337;
     private static WebDriver driver;
     private static final String RESTR_URL = GetConfig.get("RESTR_URL");
 
@@ -33,7 +33,7 @@ public class EndpointRestrictionBot {
             Thread.sleep(10000);
 
             scrollToRestBtn(js);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(), 'Ограничения')])[73]")))
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(), 'Ограничения')])[74]")))
                             .click();
 
             for (int i = 0; i < ENDPOINTS_SIZE; i++) {

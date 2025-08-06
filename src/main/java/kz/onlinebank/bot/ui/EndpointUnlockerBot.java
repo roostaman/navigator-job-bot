@@ -33,7 +33,7 @@ public class EndpointUnlockerBot {
             Thread.sleep(10000);
 
             scrollToRestBtn(js);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(), 'Ограничения')])[73]")))
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(), 'Ограничения')])[74]")))
                             .click();
 
             for (int i = 0; i < ENDPOINTS_SIZE; i++) {
@@ -43,18 +43,18 @@ public class EndpointUnlockerBot {
 
                 // scroll to last service's checkbox and select
                 WebElement checkbox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//input[@name='RestrictionsCheckboxGroup'])[last()]")));
-                WebElement restrictBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='SubmitButton' and @value='Запретить']")));
+                WebElement allowBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='SubmitButton' and @value='Разрешить']")));
 
                 scrollToRestBtn(js);
-                scrollToTheUpperElement(js, restrictBtn);
+                scrollToTheUpperElement(js, allowBtn);
                 Thread.sleep(100);
                 checkbox.click();
 
                 // take screenshot of service
 //                saveScreenshot(driver, String.format("service-%d", i));
 
-                // click btn restrict
-                restrictBtn.click();
+                // click btn allow
+                allowBtn.click();
                 Thread.sleep(200);
             }
 

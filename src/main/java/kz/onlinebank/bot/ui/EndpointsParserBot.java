@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class EndpointsParserBot {
 
     private static WebDriver driver;
@@ -51,7 +50,7 @@ public class EndpointsParserBot {
 
     public static void saveData(List<String> data) {
         try {
-            Path filePath = Paths.get("src/main/resources/endpoints.txt");
+            Path filePath = Paths.get("src/main/resources/post-endpoints.txt");
             Files.write(filePath, data);
         } catch (IOException e) {
             System.out.println(e.getMessage());
